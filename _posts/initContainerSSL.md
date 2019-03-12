@@ -1,3 +1,4 @@
+---
 # Trusting custom SSL certs in Kubernetes using initContainers
 
 One of the issues I've run into many times while deploying applications in Kubernetes is how to get a custom or self-signed cert to be trusted by the application without building a new docker image. You may run into this situation if you're deploying workloads from a restricted repository, or you don't want to modify the base image for a container. Luckily there's a useful mechanism you can use to get around this: initContainers.
@@ -87,3 +88,4 @@ Let's take a look at what's going:
   * Copies the `/etc/ssl/certs/` to the `ssl-certs` emptyDir volume
 
 The initContainer and the main container share the `ssl-certs` directory, which now contains a list of trusted certs. The main `Gangway` container mounts the `ssl-certs` volume to `/etc/ssl/certs` directory, which is the root directory for trusted certs. With your custom cert now in this directory when the container starts up it will be trusted by Gangway when it starts. All without changing the base image. Neat, huh?
+---
